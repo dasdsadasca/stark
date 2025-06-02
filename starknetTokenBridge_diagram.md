@@ -36,14 +36,14 @@ graph TD
 
     %% Interactions
     User -- "Initiates deposit/withdraw" --> STB
-
+    
     SGM -- "Manages STB" --> STB
     SGM -- "Uses" --> REG
 
     STB -- "Stores/Reads state" --> SNS
     STB -- "Uses for fee calculation" --> FeesLib
     STB -- "Uses for withdrawal limits" --> WLLib
-
+    
     STB_depositDetail -- "interacts with" --> ERC20
     STB_depositDetail -- "sends message to" --> SNM
     STB_depositMsgDetail -- "interacts with" --> ERC20

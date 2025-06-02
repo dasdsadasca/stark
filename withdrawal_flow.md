@@ -15,14 +15,14 @@ sequenceDiagram
 
     %% Off-chain: Message relay to L1 & finalization %%
     Note right of L1_Messaging: L2 Message finalized on L1
-
+    
     User->>L1_Bridge: withdraw(token, amount, l1Recipient)
     activate L1_Bridge
     L1_Bridge->>L1_Messaging: consumeMessageFromL2(L2_Bridge_Address, payload)
     activate L1_Messaging
     L1_Messaging-->>L1_Bridge: Message Consumed (Success/Failure)
     deactivate L1_Messaging
-
+    
     alt Message Consumed Successfully
         L1_Bridge->>L1_ERC20: transfer(l1Recipient, amount)
         activate L1_ERC20

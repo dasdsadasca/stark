@@ -28,13 +28,13 @@ graph TD
     LB -- "legacyDepositCancelRequest(...)" --> LB_legacyCancel["Uses onlyDepositor modifier\nStarts L1->L2 msg cancellation (OLD format) via SNM\nEmits LogDepositCancelRequest"]
     LB -- "legacyDepositReclaim(...)" --> LB_legacyReclaim["Uses onlyDepositor modifier\nFinalizes L1->L2 msg cancellation (OLD format) via SNM\nTransfers BridgedERC20 via parent's transferOutFunds\nEmits LogDepositReclaimed"]
     LB -- "enrollToken(token) - Overridden" --> LB_enrollDetail["Reverts (UNSUPPORTED)"]
-
+    
     %% Inherited Functionalities (Example - not exhaustive)
     LB -- "withdraw(amount, recipient) - Inherited" --> ParentSTB_withdraw["Uses parent's withdraw logic"]
 
     %% Interactions
     User -- "Initiates legacy deposit/cancel/reclaim" --> LB
-
+    
     LB -- "Stores/Reads specific state (BRIDGED_TOKEN_TAG, DEPOSITOR_ADDRESSES_TAG)" --> SNS
     LB -- "Uses parent for general state" --> ParentSTB -- "uses" --> SNS
 
@@ -44,7 +44,7 @@ graph TD
     LB_legacyCancel -- "interacts with" --> SNM
     LB_legacyReclaim -- "interacts with" --> SNM
     LB_legacyReclaim -- "interacts with" --> BridgedERC20
-
+    
     ParentSTB_withdraw -- "interacts with (via parent)" --> BridgedERC20
     ParentSTB_withdraw -- "consumes message from (via parent)" --> SNM
 

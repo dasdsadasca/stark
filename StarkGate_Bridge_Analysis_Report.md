@@ -82,14 +82,14 @@ graph TD
 
     %% Interactions
     User -- "Initiates deposit/withdraw" --> STB
-
+    
     SGM -- "Manages STB" --> STB
     SGM -- "Uses" --> REG
 
     STB -- "Stores/Reads state" --> SNS
     STB -- "Uses for fee calculation" --> FeesLib
     STB -- "Uses for withdrawal limits" --> WLLib
-
+    
     STB_depositDetail -- "interacts with" --> ERC20
     STB_depositDetail -- "sends message to" --> SNM
     STB_depositMsgDetail -- "interacts with" --> ERC20
@@ -162,13 +162,13 @@ graph TD
     LB -- "legacyDepositCancelRequest(...)" --> LB_legacyCancel["Uses onlyDepositor modifier\nStarts L1->L2 msg cancellation (OLD format) via SNM\nEmits LogDepositCancelRequest"]
     LB -- "legacyDepositReclaim(...)" --> LB_legacyReclaim["Uses onlyDepositor modifier\nFinalizes L1->L2 msg cancellation (OLD format) via SNM\nTransfers BridgedERC20 via parent's transferOutFunds\nEmits LogDepositReclaimed"]
     LB -- "enrollToken(token) - Overridden" --> LB_enrollDetail["Reverts (UNSUPPORTED)"]
-
+    
     %% Inherited Functionalities (Example - not exhaustive)
     LB -- "withdraw(amount, recipient) - Inherited" --> ParentSTB_withdraw["Uses parent's withdraw logic"]
 
     %% Interactions
     User -- "Initiates legacy deposit/cancel/reclaim" --> LB
-
+    
     LB -- "Stores/Reads specific state (BRIDGED_TOKEN_TAG, DEPOSITOR_ADDRESSES_TAG)" --> SNS
     LB -- "Uses parent for general state" --> ParentSTB -- "uses" --> SNS
 
@@ -178,7 +178,7 @@ graph TD
     LB_legacyCancel -- "interacts with" --> SNM
     LB_legacyReclaim -- "interacts with" --> SNM
     LB_legacyReclaim -- "interacts with" --> BridgedERC20
-
+    
     ParentSTB_withdraw -- "interacts with (via parent)" --> BridgedERC20
     ParentSTB_withdraw -- "consumes message from (via parent)" --> SNM
 
@@ -245,7 +245,7 @@ sequenceDiagram
 
     %% Off-chain: Message relay to L2 %%
     Note right of L1_Messaging: Message picked up by StarkNet
-
+    
     L1_Messaging->>L2_Bridge: (Relayed Message)
     activate L2_Bridge
     L2_Bridge->>L2_Bridge: Process Deposit Message
@@ -286,14 +286,14 @@ sequenceDiagram
 
     %% Off-chain: Message relay to L1 & finalization %%
     Note right of L1_Messaging: L2 Message finalized on L1
-
+    
     User->>L1_Bridge: withdraw(token, amount, l1Recipient)
     activate L1_Bridge
     L1_Bridge->>L1_Messaging: consumeMessageFromL2(L2_Bridge_Address, payload)
     activate L1_Messaging
     L1_Messaging-->>L1_Bridge: Message Consumed (Success/Failure)
     deactivate L1_Messaging
-
+    
     alt Message Consumed Successfully
         L1_Bridge->>L1_ERC20: transfer(l1Recipient, amount)
         activate L1_ERC20

@@ -26,7 +26,7 @@ sequenceDiagram
 
     %% Off-chain: Message relay to L2 %%
     Note right of L1_Messaging: Message picked up by StarkNet
-
+    
     L1_Messaging->>L2_Bridge: (Relayed Message)
     activate L2_Bridge
     L2_Bridge->>L2_Bridge: Process Deposit Message
